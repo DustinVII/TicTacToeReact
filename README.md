@@ -8,7 +8,7 @@ As part of my Software Engineering course in year 1, semester 2 at UNASAT (Unive
 Take the following steps to play this game or work on this project.
 
 ### Method 1 (fastest)
-1. Upload the project on a local web server
+1. Upload the project on a local web server.
 2. Run `index.html` in your browser.
 
 
