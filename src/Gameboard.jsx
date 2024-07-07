@@ -18,24 +18,17 @@ export default function Gameboard() {
 
   function addSpot(index) {
     setSpots((currentSpots) => {
-      let spotFilled = false;
+      return currentSpots.map((spot, i) => 
 
-      const updatedSpots = currentSpots.map((spot, i) => {
-        if (i === index && spot.type === null) {
-          spotFilled = true;
-          return { ...spot, type: playerTurn };
-        } else {
-          return spot;
-        }
-      });
+          {if (i === index && spot.type === null) {
+            return { ...spot, type: playerTurn };
+          } else {
+            return spot;
+          }}
 
-      // Switch player turn only if a spot was successfully filled
-      if (spotFilled) {
-        setPlayerTurn((prevTurn) => (prevTurn === "x" ? "o" : "x"));
-      }
-
-      return updatedSpots;
+      );
     });
+    setPlayerTurn((prevTurn) => (prevTurn === "x" ? "o" : "x"));
   }
 
     return (
