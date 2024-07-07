@@ -1,0 +1,94 @@
+body {
+  background:#011627;
+  color:#b6ddea;
+  font-size:14px;
+  font-family: Consolas, Arial, Helvetica, sans-serif;
+}
+
+.no-highlight {
+  user-select: none; /* Standard syntax */
+  -webkit-user-select: none; /* Chrome, Safari, Opera */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.xcolor {
+  color:#0f0
+}
+
+.ocolor {
+  color:#ff0
+}
+
+#logo {
+  max-width:600px;
+  margin:60px auto
+}
+
+#logo img {
+  width:100%
+}
+
+.menu ul {
+  list-style:none;
+  margin:0 auto;
+  text-align:center;
+  max-width:300px
+}
+
+.menu li a {
+  display:block;
+  background:#01192d;
+  padding:10px;
+  color:#b6ddea;
+  text-decoration:none;
+  font-size:16px;
+  text-transform:uppercase;
+  margin:10px 0;
+  border:solid 5px #b6ddea0d
+}
+
+.menu li a:hover {
+  border:solid 5px #e5bf00;
+  color:#e5bf00;
+  background:#042744;
+}
+
+#gameboard {
+  width:259px;
+  margin:0 auto;
+}
+
+#gameboard .spot {
+  background:#041b2e;
+  width:80px;
+  height:80px;
+  float:left;
+  margin:3px;
+}
+
+#gameboard .spot img {
+  width:100%;
+  padding:5px
+}
+
+#gameboard .spot:hover {
+  background:#062137;
+  cursor:pointer
+}
+
+#footer {
+  font-size:10px;
+  color:#475968;
+  padding:40px 0;
+  margin:50px 0 0;
+}
+
+#footer a {
+  color:#667582;
+  text-decoration:none
+}
+
+#footer a:hover {
+  text-decoration:underline
+}
