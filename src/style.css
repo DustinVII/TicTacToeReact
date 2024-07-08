@@ -20,6 +20,10 @@ body {
   color:#ff0
 }
 
+.upper {
+  text-transform: uppercase;
+}
+
 #logo {
   max-width:600px;
   margin:60px auto
