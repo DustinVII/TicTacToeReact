@@ -1,9 +1,13 @@
 ## Tic Tac Toe React
+<p align="center">
 <img src="git-assets/cover.png">
+</p>
 
 As part of my Software Engineering course in year 1, semester 2 at UNASAT (University of Applied Sciences and Technology Suriname) I had to build a [Tic Tac Toe game in Java](https://github.com/DustinVII/TicTacToe). I decided to recreate this game in React in order to learn the basics of React.
 
+<p align="center">
 <img src="git-assets/demo.gif">
+</p>
 
 
 ## Steps and requirements
