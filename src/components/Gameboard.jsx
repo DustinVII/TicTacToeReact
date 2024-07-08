@@ -14,8 +14,35 @@ export default function Gameboard() {
     { spotnumber: 9, type: null },
   ]);
 
+  const winningCombinations = [
+    [0, 1, 2], // top row
+    [3, 4, 5], // middle row
+    [6, 7, 8], // bottom row
+    [0, 3, 6], // left column
+    [1, 4, 7], // middle column
+    [2, 5, 8], // right column
+    [0, 4, 8], // top-left to bottom-right diagonal
+    [2, 4, 6]  // top-right to bottom-left diagonal
+  ];
+  
+  function checkWinner(spots) {
+    for (let i = 0; i < winningCombinations.length; i++) {
+      const [a, b, c] = winningCombinations[i];
+      if (spots[a].type && spots[a].type === spots[b].type && spots[a].type === spots[c].type) {
+        return spots[a].type; // Return the type of the winner (e.g., 'X' or 'O')
+      }
+    }
+    return null; // No winner
+  };
+
+
   const [playerTurn, setPlayerTurn] = useState("x");
   const playerColor = (playerTurn === "x" ? "xcolor" : "ocolor");
+  const statusMessage = (
+    <p>
+      Player <span className={`${playerColor}`}>{playerTurn.toUpperCase()}</span> it's your turn!
+    </p>
+  );
 
   function addSpot(index) {
     setSpots((currentSpots) => {
@@ -35,14 +62,19 @@ export default function Gameboard() {
     });
 
     setPlayerTurn((prevTurn) => (prevTurn === "x" ? "o" : "x"));
+
+    const winner = checkWinner(spots);
+  if (winner) {
+    alert(`${winner} wins!`);
+    // Reset the game or handle the win accordingly
+  }
     
   }
-
     return (
     
         <div id="gameboard">
 
-          <p>Player <span className={`upper ${playerColor}`}>{playerTurn}</span> it's your turn!</p>
+          <p>{statusMessage}</p>
             
             {spots.map((spot, index) => (
           <div 

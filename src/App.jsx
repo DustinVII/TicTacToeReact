@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import Logo from './Logo';
-import MainMenu from './MainMenu';
-import LoginForm from './LoginForm';
-import Gameboard from './Gameboard';
-import Footer from './Footer';
+import Logo from './components/Logo';
+import MainMenu from './components/MainMenu';
+import LoginForm from './components/LoginForm';
+import Gameboard from './components/Gameboard';
+import Footer from './components/Footer';
 //import reactLogo from './assets/react.svg'
 //import './App.css'
 
