@@ -3,6 +3,8 @@
 
 As part of my Software Engineering course in year 1, semester 2 at UNASAT (University of Applied Sciences and Technology Suriname) I had to build a [Tic Tac Toe game in Java](https://github.com/DustinVII/TicTacToe). I decided to recreate this game in React in order to learn the basics of React.
 
+<img src="git-assets/demo.gif">
+
 
 ## Steps and requirements
 Take the following steps to play this game or work on this project.
