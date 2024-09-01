@@ -22,4 +22,4 @@ Take the following steps to play this game or work on this project.
 1. Install `node.js`. [Download node.js here](https://nodejs.org/en/download/package-manager).
 2. Check node version in command using `node -v`
 3. You will need an IDE to run this, I prefer [IntelliJ](https://www.jetbrains.com/idea/download/).
-4. Finally, pull this project into [IntelliJ](https://www.jetbrains.com/idea/download/) and run it.
+4. Finally, pull this project into [IntelliJ](https://www.jetbrains.com/idea/download/) and run the server using `npm run dev`.
