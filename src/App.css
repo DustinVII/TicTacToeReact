@@ -59,26 +59,31 @@ body {
 }
 
 #gameboard {
-  width:259px;
-  margin:0 auto;
+  width: 360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 120px); /* 3 columns of 80px each */
+  gap: 3px; /* space between grid items */
 }
 
 #gameboard .spot {
-  background:#041b2e;
-  width:80px;
-  height:80px;
-  float:left;
-  margin:3px;
+  background: #041b2e;
+  width: 120px;
+  height: 120px;
 }
 
 #gameboard .spot img {
-  width:100%;
-  padding:5px
+  width: 100%;
+  padding: 5px;
 }
 
 #gameboard .spot:hover {
-  background:#062137;
-  cursor:pointer
+  background: #062137;
+  cursor: pointer;
+}
+
+.scores {
+  text-align:center
 }
 
 #footer {
