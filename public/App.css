@@ -31,14 +31,9 @@ body {
   text-transform: uppercase;
 }
 
-.statusMessage {
+#gameboard .statusMessage {
   text-align: center;
-  font-size: 20px;
-}
-
-.winMessage {
-  font-size: 70px;
-  color:#fff
+  font-size: 40px;
 }
 
 #logo {

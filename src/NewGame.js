@@ -1,131 +1,174 @@
 // SecondPage.js
-import React, { useContext, useState   } from 'react';
-import { ScoreContext } from './ScoreContext';
+import React, { useState } from 'react';
+// import { ScoreContext } from './ScoreContext';
 
+const NewGame = () => {
+  // Define the winning combinations: each subarray contains indexes in the board array that form a winning line.
+  const winPatterns = [
+    [0, 1, 2], // Top row
+    [3, 4, 5], // Middle row
+    [6, 7, 8], // Bottom row
+    [0, 3, 6], // Left column
+    [1, 4, 7], // Middle column
+    [2, 5, 8], // Right column
+    [0, 4, 8], // Diagonal from top-left to bottom-right
+    [2, 4, 6], // Diagonal from top-right to bottom-left
+  ];
 
-
-const SecondPage = () => {
-
-  // indexes of spots that form winning combinations
-const winPatterns  = [
-  [0, 1, 2], // rows
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8], // diagonals
-  [2, 4, 6],
-];
-
-
-const checkWinner = (newSpotImages) => {
-  for (const [a, b, c] of winPatterns) {
-    if (
-      newSpotImages[a] !== null &&
-      newSpotImages[a] === newSpotImages[b] &&
-      newSpotImages[a] === newSpotImages[c]
-    ) {
-      return newSpotImages[a]; // Returns winning image URL or symbol
+  // Function to check if there's a winner on the board.
+  // It takes the current state of the board (newSpotImages) as an array.
+  // It returns the winning image (or symbol) if found, otherwise null.
+  const checkWinner = (newSpotImages) => {
+    for (let i = 0; i < winPatterns.length; i++) {
+      const [firstIndex, secondIndex, thirdIndex] = winPatterns[i];
+      if (newSpotImages[firstIndex] !== null) {
+        if (
+          newSpotImages[firstIndex] === newSpotImages[secondIndex] &&
+          newSpotImages[firstIndex] === newSpotImages[thirdIndex]
+        ) {
+          return newSpotImages[firstIndex];
+        }
+      }
     }
-  }
-  return null;
-};
+    return null;
+  };
 
+  // Function to check if the game is a draw.
+  // It returns true if all spots are filled and there's no winner.
+  const checkDraw = (spotImages) => {
+    const boardIsFull = spotImages.every(spot => spot !== null);
+    return boardIsFull && !checkWinner(spotImages);
+  };
 
+  // State variable "spotImages" holds the current state of the board (9 spots, all initially null).
+  const [spotImages, setSpotImages] = useState(Array(9).fill(null));
 
-        // Define the images you want to alternate
+  // Array holding the two images used for the two players.
   const images = [
-        'images/x.png',  // for example, player X
-        'images/o.png'   // for example, player O
-      ];
-      
+    'images/x.png',  // Represents player X.
+    'images/o.png'   // Represents player O.
+  ];
 
+  // State variable to track whose turn it is (0 or 1).
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-          // Create an array of 9 elements (for 9 spots), initially all null
-        const [spotImages, setSpotImages] = useState(Array(9).fill(null));
-        // Track the current image index (0 or 1 for alternating between X and O)
-        const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // Score states.
+  const [scoreX, setScoreX] = useState(0);
+  const [scoreO, setScoreO] = useState(0);
+  const [scoreD, setScoreD] = useState(0);
 
-
-        const handleSpotClick = (index) => {
-                // If the spot is already occupied, do nothing
-                if (spotImages[index] !== null) return;
-            
-                // Copy the current state
-                const newSpotImages = [...spotImages];
-                // Set the clicked spot to the current image (e.g., X or O)
-                newSpotImages[index] = images[currentImageIndex];
-                setSpotImages(newSpotImages);
-
-
-                const winner = checkWinner(newSpotImages);
-                const winnerSymbol = checkWinner(newSpotImages);
-                if (winnerSymbol) {  
-                  alert('Player wins!');
-                  setScore(score + 1);
-                }
-
-
-            
-                // Toggle to the next image
-                setCurrentImageIndex((currentImageIndex + 1) % images.length);
-              };
-
-
-              const winnerImage = checkWinner(spotImages);
-
-
-              // Reset the board by setting all spots to null
+  // Function to reset the game board.
   const resetBoard = () => {
-        setSpotImages(Array(9).fill(null));
-        setCurrentImageIndex(0);
-        // Optionally, reset the score if desired:
-        // setScore(0);
-      };
+    setSpotImages(Array(9).fill(null));
+    setCurrentImageIndex(0);
+  };
 
+  // Function to reset scores.
+  const resetScore = () => {
+    resetBoard();
+    setScoreX(0);
+    setScoreO(0);
+    setScoreD(0);
+  };
 
+  // Function that handles the event when a spot on the board is clicked.
+  const handleSpotClick = (index) => {
+    // If the spot is already taken or a winner exists, ignore the click.
+    if (checkDraw(spotImages) || checkWinner(spotImages)) 
+      {resetBoard();
+        return;
+        }
+    if (spotImages[index] !== null) return;
 
+    // Create a copy of the current board state.
+    const newSpotImages = [...spotImages];
+    // Place the current player's image in the selected spot.
+    newSpotImages[index] = images[currentImageIndex];
+    // Update the board state with the new move.
+    setSpotImages(newSpotImages);
 
+    // Check for win or draw after the move.
+    const winner = checkWinner(newSpotImages);
+    const draw = checkDraw(newSpotImages);
 
+    if (winner) {
+      setTimeout(() => {
+        if (winner === images[0]) {
+          //alert('Player X wins!');
+          setScoreX(prev => prev + 1);
+        } else if (winner === images[1]) {
+          //alert('Player O wins!');
+          setScoreO(prev => prev + 1);
+        }
+      }, 0);
+    } else if (draw) {
+      setTimeout(() => {
+        //alert("That's a draw!");
+        setScoreD(prev => prev + 1);
+      }, 0);
+    }
 
+    // Switch the turn to the other player.
+    setCurrentImageIndex((currentImageIndex + 1) % images.length);
+  };
 
-
-
-        // "score" is the variable, "setScore" updates it.
-        const { score, setScore } = useContext(ScoreContext);
-
-        // Function that increments the score by 1
-        const incrementScore = () => setScore(score + 1);
-
-        const resetScore = () => setScore(0);
-
+  // Compute status variables for rendering the message.
+  const winner = checkWinner(spotImages);
+  const draw = checkDraw(spotImages);
+  const winnerLabel = winner === images[0] ? "X" : "O";
+  const winnerClass = winner === images[0] ? "xcolor" : "ocolor";
+  const drawClass = "dcolor";
 
   return (
     <>
-    
-
-
-
-    <div id="gameboard" class="no-highlight">
-    {spotImages.map((imgSrc, index) => (
-        <div
-          key={index}
-          className={`spot spot${index + 1}`}
-          onClick={() => handleSpotClick(index)}
-        >
-          {imgSrc && <img src={imgSrc} alt={`Spot ${index + 1}`} />}
-        </div>
-      ))}
+      <div class="statusMessage">
+      {((winner, draw, currentImageIndex, winnerClass, winnerLabel, drawClass) => {
+        if (winner) {
+          return <p class="winMessage"><span className={winnerClass}>{winnerLabel}</span> WINS!</p>;
+        } else if (draw) {
+          return <p class="winMessage">It's a <span className={drawClass}>DRAW</span>!</p>;
+        } else if (currentImageIndex === 0) {
+          return <p><span className="xcolor">X</span> it's your turn!</p>;
+        } else {
+          return <p><span className="ocolor">O</span> it's your turn!</p>;
+        }
+      })(winner, draw, currentImageIndex, winnerClass, winnerLabel, drawClass)}
     </div>
-
-    <div className="scores">
-              <h1>Your score is: {score}</h1>
-              <button onClick={resetBoard}>Reset</button>
+      {/* Game board container */}
+      <div id="gameboard" className="no-highlight">
+        {spotImages.map((imgSrc, index) => (
+          <div
+            key={index}
+            className={`spot spot${index + 1}`}
+            onClick={() => handleSpotClick(index)}
+          >
+            {imgSrc && <img src={imgSrc} alt={`Spot ${index + 1}`} />}
           </div>
-      
-     </>
+        ))}
+      </div>
+
+      {/* Score display and reset button */}
+      <div className="scores no-highlight">
+        <div id="scoreBoard">
+          <div className="scoreBox">
+            <span className="xcolor">X:</span> {scoreX}
+          </div>
+          <div className="scoreBox">
+            <span className="dcolor">D:</span> {scoreD}
+          </div>
+          <div className="scoreBox">
+            <span className="ocolor">O:</span> {scoreO}
+          </div>
+        </div>
+        {(checkWinner(spotImages) || checkDraw(spotImages)) && (
+          <>
+            <button onClick={resetBoard}>Rematch</button>
+            <button onClick={resetScore}>Reset Score</button>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
-export default SecondPage;
+export default NewGame;
