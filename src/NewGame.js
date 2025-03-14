@@ -121,34 +121,10 @@ const NewGame = () => {
 
   return (
     <>
-      <div class="statusMessage">
-      {((winner, draw, currentImageIndex, winnerClass, winnerLabel, drawClass) => {
-        if (winner) {
-          return <p class="winMessage"><span className={winnerClass}>{winnerLabel}</span> WINS!</p>;
-        } else if (draw) {
-          return <p class="winMessage">It's a <span className={drawClass}>DRAW</span>!</p>;
-        } else if (currentImageIndex === 0) {
-          return <p><span className="xcolor">X</span> it's your turn!</p>;
-        } else {
-          return <p><span className="ocolor">O</span> it's your turn!</p>;
-        }
-      })(winner, draw, currentImageIndex, winnerClass, winnerLabel, drawClass)}
-    </div>
-      {/* Game board container */}
-      <div id="gameboard" className="no-highlight">
-        {spotImages.map((imgSrc, index) => (
-          <div
-            key={index}
-            className={`spot spot${index + 1}`}
-            onClick={() => handleSpotClick(index)}
-          >
-            {imgSrc && <img src={imgSrc} alt={`Spot ${index + 1}`} />}
-          </div>
-        ))}
-      </div>
 
-      {/* Score display and reset button */}
-      <div className="scores no-highlight">
+
+{/* Score display and reset button */}
+<div className="scores no-highlight">
         <div id="scoreBoard">
           <div className="scoreBox">
             <span className="xcolor">X:</span> {scoreX}
@@ -167,6 +143,59 @@ const NewGame = () => {
           </>
         )}
       </div>
+
+
+
+      <div className="statusMessage">
+  {(() => {
+    if (winner) {
+      return (
+        <p key="win" className="winMessage zoomslow">
+          <span className={winnerClass}>{winnerLabel}</span> WINS!
+        </p>
+      );
+    } else if (draw) {
+      return (
+        <p key="draw" className="winMessage zoomslow">
+          It's a <span className={drawClass}>DRAW</span>!
+        </p>
+      );
+    } else if (currentImageIndex === 0) {
+      return (
+        <p key="turnX" className="zoomfast">
+          <span className="xcolor">X</span> it's your turn!
+        </p>
+      );
+    } else {
+      return (
+        <p key="turnO" className="zoomfast">
+          <span className="ocolor">O</span> it's your turn!
+        </p>
+      );
+    }
+  })()}
+</div>
+
+
+      
+
+
+
+
+          {/* Game board container */}
+          <div id="gameboard" className="no-highlight">
+        {spotImages.map((imgSrc, index) => (
+          <div
+            key={index}
+            className={`spot spot${index + 1}`}
+            onClick={() => handleSpotClick(index)}
+          >
+            {imgSrc && <img className="zoomfast" src={imgSrc} alt={`Spot ${index + 1}`} />}
+          </div>
+        ))}
+      </div>
+
+
     </>
   );
 };

@@ -41,6 +41,41 @@ body {
   color:#fff
 }
 
+.fadefast {
+  opacity: 0;
+  animation: fadeIn 0.2s forwards; /* animation duration 0.5 seconds */
+}
+
+.fadeslow {
+  opacity: 0;
+  animation: fadeIn 3s forwards; /* animation duration 0.5 seconds */
+}
+
+.zoomfast {
+  animation: zoomIn 0.2s forwards; /* Adjust the duration as needed */
+}
+
+.zoomslow {
+  animation: zoomIn 3s forwards; /* Adjust the duration as needed */
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 #logo {
   max-width:600px;
   margin:60px auto
