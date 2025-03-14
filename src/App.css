@@ -161,7 +161,8 @@ button {
   font-size:16px;
   text-transform:uppercase;
   margin:10px 5px;
-  border:solid 5px #b6ddea0d
+  border:solid 5px #b6ddea0d;
+  font-family: Silkscreen, Consolas, Arial, Helvetica, sans-serif;
 }
 
 button:hover {
