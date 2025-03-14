@@ -1,4 +1,4 @@
-## Tic Tac Toe React
+## Tic Tac Toe React (Still in development)
 <p align="center">
 <img src="git-assets/cover.png">
 </p>
@@ -13,13 +13,17 @@ As part of my Software Engineering course in year 1, semester 2 at UNASAT (Unive
 ## Steps and requirements
 Take the following steps to play this game or work on this project.
 
-### Method 1 (fastest)
+
+
+
+### Method 1
+1. Install `node.js`. [Download node.js here](https://nodejs.org/en/download/package-manager) and `npm`. [Check this link](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+
+2. Check node and npm version in command using `node -v` and `npm -v`
+3. Go to the root of your project and run the development server `npm start`
+4. Your React app will automatically open in your browser at: `http://localhost:3000`
+
+
+### Method 2 (fastest)
 1. Upload the project on a local web server.
 2. Run `index.html` in your browser.
-
-
-### Method 2
-1. Install `node.js`. [Download node.js here](https://nodejs.org/en/download/package-manager).
-2. Check node version in command using `node -v`
-3. You will need an IDE to run this, I prefer [IntelliJ](https://www.jetbrains.com/idea/download/).
-4. Finally, pull this project into [IntelliJ](https://www.jetbrains.com/idea/download/) and run the server using `npm run dev`.
