@@ -20,8 +20,14 @@ Take the following steps to play this game or work on this project.
 1. Install `node.js`. [Download node.js here](https://nodejs.org/en/download/package-manager) and `npm`. [Check this link](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 2. Check node and npm version in command using `node -v` and `npm -v`
-3. Go to the root of your project and run the development server `npm start`
-4. Your React app will automatically open in your browser at: `http://localhost:3000`
+3. Install dependencies using `npm install`
+4. Start node server in a new terminal:
+```bash
+cd node
+node server.js
+```
+5. Go to the root of your project and run the development server `npm start`
+6. Your React app will automatically open in your browser at: `http://localhost:3000`
 
 
 ### Method 2 (fastest)
