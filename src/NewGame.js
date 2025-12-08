@@ -241,6 +241,9 @@ const NewGame = () => {
       </div>
 
 
+      <div className="message"></div>
+
+
     </>
   );
 };
