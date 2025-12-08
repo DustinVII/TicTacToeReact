@@ -1,9 +1,19 @@
 // SecondPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import socket from './socket';
 // import { ScoreContext } from './ScoreContext';
 
 const NewGame = () => {
-  // Define the winning combinations: each subarray contains indexes in the board array that form a winning line.
+
+    // State variable to track whose turn it is (0 or 1).
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    socket.emit("message", currentImageIndex === 0 ? "It's X turn" : "It's O turn");
+  }, [currentImageIndex]);
+
+
+    // Define the winning combinations: each subarray contains indexes in the board array that form a winning line.
   const winPatterns = [
     [0, 1, 2], // Top row
     [3, 4, 5], // Middle row
@@ -49,8 +59,7 @@ const NewGame = () => {
     'images/o.png'   // Represents player O.
   ];
 
-  // State variable to track whose turn it is (0 or 1).
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
 
   // Score states.
   const [scoreX, setScoreX] = useState(0);
@@ -71,6 +80,33 @@ const NewGame = () => {
     setScoreD(0);
   };
 
+  // Multiplayer funtion
+  socket.on("spotPlayedByOtherPlayer", (spot, player) => {
+    console.log("Spot played by other player:", spot, "Player:", player);
+  
+    setSpotImages(prevSpotImages => {
+      const newSpotImages = [...prevSpotImages];
+      newSpotImages[spot] = images[player];
+      return newSpotImages;
+    });
+  
+    // Switch turn
+    setCurrentImageIndex((player + 1) % images.length);
+  });
+
+  socket.on("updateScoreboardForOthers", (score, player) => {
+    console.log("Score updated:", score, "for player:", player);
+    if (player==="X") {
+      setScoreX(score);
+    } else if (player==="O") {
+      setScoreO(score);
+    } else {
+      setScoreD(score);
+    }
+    
+
+  });
+
   // Function that handles the event when a spot on the board is clicked.
   const handleSpotClick = (index) => {
     // If the spot is already taken or a winner exists, ignore the click.
@@ -84,6 +120,7 @@ const NewGame = () => {
     const newSpotImages = [...spotImages];
     // Place the current player's image in the selected spot.
     newSpotImages[index] = images[currentImageIndex];
+    socket.emit("spotPlayed",index, currentImageIndex);
     // Update the board state with the new move.
     setSpotImages(newSpotImages);
 
@@ -92,24 +129,32 @@ const NewGame = () => {
     const draw = checkDraw(newSpotImages);
 
     if (winner) {
-      setTimeout(() => {
+
         if (winner === images[0]) {
           //alert('Player X wins!');
-          setScoreX(prev => prev + 1);
+          socket.emit("matchComplete", "X");
+          const newScoreX = scoreX + 1;
+          setScoreX(newScoreX);
+          socket.emit("updateScoreboard", newScoreX, "X");
         } else if (winner === images[1]) {
           //alert('Player O wins!');
-          setScoreO(prev => prev + 1);
+          socket.emit("matchComplete", "O");
+          const newScoreO = scoreO + 1;
+          setScoreO(newScoreO);
+          socket.emit("updateScoreboard", newScoreO, "O");
         }
-      }, 0);
+
     } else if (draw) {
-      setTimeout(() => {
         //alert("That's a draw!");
-        setScoreD(prev => prev + 1);
-      }, 0);
+        socket.emit("matchComplete", "draw");
+        const newScoreD = scoreD + 1;
+        setScoreD(newScoreD);
+        socket.emit("updateScoreboard", newScoreD, "draw");
     }
 
     // Switch the turn to the other player.
     setCurrentImageIndex((currentImageIndex + 1) % images.length);
+    
   };
 
   // Compute status variables for rendering the message.
@@ -147,34 +192,34 @@ const NewGame = () => {
 
 
       <div className="statusMessage">
-  {(() => {
-    if (winner) {
-      return (
-        <p key="win" className="winMessage zoomslow">
-          <span className={winnerClass}>{winnerLabel}</span> WINS!
-        </p>
-      );
-    } else if (draw) {
-      return (
-        <p key="draw" className="winMessage zoomslow">
-          It's a <span className={drawClass}>DRAW</span>!
-        </p>
-      );
-    } else if (currentImageIndex === 0) {
-      return (
-        <p key="turnX" className="zoomfast">
-          <span className="xcolor">X</span> it's your turn!
-        </p>
-      );
-    } else {
-      return (
-        <p key="turnO" className="zoomfast">
-          <span className="ocolor">O</span> it's your turn!
-        </p>
-      );
-    }
-  })()}
-</div>
+          {(() => {
+            if (winner) {
+              return (
+                <p key="win" className="winMessage zoomslow">
+                  <span className={winnerClass}>{winnerLabel}</span> WINS!
+                </p>
+              );
+            } else if (draw) {
+              return (
+                <p key="draw" className="winMessage zoomslow">
+                  It's a <span className={drawClass}>DRAW</span>!
+                </p>
+              );
+            } else if (currentImageIndex === 0) {
+              return (
+                <p key="turnX" className="zoomfast">
+                  <span className="xcolor">X</span> it's your turn!
+                </p>
+              );
+            } else {
+              return (
+                <p key="turnO" className="zoomfast">
+                  <span className="ocolor">O</span> it's your turn!
+                </p>
+              );
+            }
+          })()}
+        </div>
 
 
       
